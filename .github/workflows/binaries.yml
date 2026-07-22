@@ -1533,17 +1533,3 @@ jobs:
   #       uses: rlespinasse/github-slug-action@v4.4.1
   #     - uses: jgillis/fetch-gh-release-asset@codex/bump-runtime-node24
   #       with:
-  #         version: tags/nightly-${{ env.GITHUB_REF_SLUG }}
-  #         file: casadi-${{ needs.version.outputs.wheel }}-cp${{ matrix.py2 == '312' && '311' || matrix.py2 }}-${{ fromJSON(matrix.py2 == '312' && '311' || matrix.py2) >= 311 && 'abi3' || 'none' }}-${{env.platform}}.whl
-  #     - run: |
-  #         pip install -vvv casadi-${{ needs.version.outputs.wheel }}-cp${{ matrix.py2 == '312' && '311' || matrix.py2 }}-${{ fromJSON(matrix.py2 == '312' && '311' || matrix.py2) >= 311 && 'abi3' || 'none' }}-${{env.platform}}.whl
-  #         cd test/python
-  #         python function.py
-  #       shell: bash -el {0}
-  #       if: "!contains(matrix.image, 'windows')"
-  #     - run: |
-  #         pip install -vvv casadi-${{ needs.version.outputs.wheel }}-cp${{ matrix.py2 == '312' && '311' || matrix.py2 }}-${{ fromJSON(matrix.py2 == '312' && '311' || matrix.py2) >= 311 && 'abi3' || 'none' }}-${{env.platform}}.whl
-  #         cd test/python
-  #         python function.py
-  #       shell: pwsh
-  #       if: contains(matrix.image, 'windows')
