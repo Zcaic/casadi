@@ -3,39 +3,33 @@
 #                  Python builds/tests for versions < 3.11 and == 3.13
 name: binaries
 
-on: workflow_dispatch
+on: [workflow_dispatch]
 
 env:
-  cache-suffix: v11
-  build_flags_julia_off: "-DWITH_MATLAB_IPC=OFF -DWITH_SPRAL=OFF -DWITH_BUILD_SPRAL=OFF"
-  build_flags: "-DWITH_COMMON=OFF -DWITH_BUILD_REQUIRED=ON -DWITH_BUILD_BONMIN=ON -DWITH_BONMIN=ON -DWITH_IPOPT=ON -DWITH_BUILD_IPOPT=ON -DWITH_BUILD_LAPACK=ON -DWITH_LAPACK=ON -DWITH_MUMPS=ON -DWITH_CLP=ON -DWITH_BUILD_CLP=ON -DWITH_CBC=ON -DWITH_BUILD_CBC=ON -DWITH_THREAD=ON -DWITH_QPOASES=ON -DWITH_HPIPM=ON -DWITH_BLASFEO=ON -DWITH_BUILD_HPIPM=ON -DWITH_BUILD_BLASFEO=ON -DWITH_HIGHS=ON -DWITH_BUILD_HIGHS=ON -DWITH_BUILD_SPRAL=ON -DWITH_SPRAL=ON -DWITH_PROXQP=ON -DWITH_OSQP=ON -DWITH_SUPERSCS=ON -DWITH_KNITRO=ON -DWITH_MOCKUP_KNITRO=ON -DWITH_CPLEX=ON -DWITH_MOCKUP_CPLEX=ON -DWITH_GUROBI=ON -DWITH_MOCKUP_GUROBI=ON -DWITH_XPRESS=ON -DWITH_MOCKUP_XPRESS=ON -DWITH_MOSEK=ON -DWITH_MOCKUP_MOSEK=ON -DWITH_HSL=ON -DWITH_MOCKUP_HSL=ON -DWITH_WORHP=ON -DWITH_MOCKUP_WORHP=ON -DWITH_SUNDIALS=ON -DWITH_BUILD_SUNDIALS=ON -DWITH_BUILD_CSPARSE=ON -DWITH_BUILD_METIS=ON -DWITH_BUILD_BLASFEO=ON -DWITH_BUILD_SUPERSCS=ON -DWITH_BUILD_OSQP=ON -DWITH_BUILD_EIGEN3=ON -DWITH_BUILD_SIMDE=ON -DWITH_BUILD_PROXQP=ON -DWITH_SNOPT=ON -DWITH_MOCKUP_SNOPT=ON -DWITH_AMPL=ON -DWITH_BLOCKSQP=ON -DWITH_SLEQP=ON -DWITH_SLEQP_BUILD=ON -DWITH_ALPAQA=ON -DWITH_BUILD_ALPAQA=ON -DWITH_DAQP=ON -DWITH_BUILD_DAQP=ON -DWITH_FATROP=ON -DWITH_BUILD_FATROP=ON -DWITH_MATLAB_IPC=ON -DWITH_MADNLP=ON -DWITH_MOCKUP_MADNLP=ON -DWITH_CCOPT=ON -DWITH_MOCKUP_CCOPT=ON -DWITH_PYTHON_GIL_RELEASE=ON -DWITH_THREADSAFE_SYMBOLICS=ON -DWITH_CLARABEL=OFF -DWITH_BUILD_CLARABEL=OFF -DWITH_RUMOCA=OFF -DWITH_BUILD_RUMOCA=OFF -DWITH_LIBZIP=ON -DWITH_BUILD_LIBZIP=ON -DWITH_ZLIB=ON -DWITH_BUILD_ZLIB=ON -DWITH_GHC_FILESYSTEM=ON -DWITH_BUILD_GHC_FILESYSTEM=ON -DWITH_PIQP=ON -DWITH_BUILD_PIQP=ON -DWITH_UNO=ON -DWITH_BUILD_UNO=ON -DWITH_PROTOBUF=ON -DWITH_BUILD_PROTOBUF=ON -DWITH_ONNX=ON -DWITH_BUILD_ONNX=ON -DWITH_LACEMODELICA=ON -DWITH_BUILD_LACEMODELICA=ON -DWITH_ONNX_RUNTIME=ON -DWITH_MOCKUP_ONNX_RUNTIME=ON"
-  build_flags_32bit: "-DWITH_HPIPM=OFF -DWITH_BLASFEO=OFF -DWITH_BUILD_HPIPM=OFF -DWITH_BUILD_BLASFEO=OFF -DWITH_CPLEX=OFF -DWITH_XPRESS=OFF -DWITH_MOCKUP_XPRESS=OFF -DWITH_MOSEK=OFF -DWITH_MOCKUP_MOSEK=OFF -DWITH_FATROP=OFF -DWITH_BUILD_FATROP=OFF"
+  cache-suffix: v18
+  build_flags: "-DWITH_COMMON=OFF -DWITH_BUILD_REQUIRED=ON -DWITH_BUILD_BONMIN=ON -DWITH_BONMIN=ON -DWITH_IPOPT=ON -DWITH_BUILD_IPOPT=ON -DWITH_BUILD_LAPACK=ON -DWITH_LAPACK=ON -DWITH_MUMPS=ON -DWITH_CLP=ON -DWITH_BUILD_CLP=ON -DWITH_CBC=ON -DWITH_BUILD_CBC=ON -DWITH_THREAD=ON -DWITH_QPOASES=ON -DWITH_HPIPM=ON -DWITH_BLASFEO=ON -DWITH_BUILD_HPIPM=ON -DWITH_BUILD_BLASFEO=ON -DWITH_HIGHS=ON -DWITH_BUILD_HIGHS=ON -DWITH_BUILD_SPRAL=ON -DWITH_SPRAL=ON -DWITH_PROXQP=ON -DWITH_OSQP=ON -DWITH_SUPERSCS=ON -DWITH_KNITRO=ON -DWITH_MOCKUP_KNITRO=ON -DWITH_CPLEX=ON -DWITH_MOCKUP_CPLEX=ON -DWITH_GUROBI=ON -DWITH_MOCKUP_GUROBI=ON -DWITH_HSL=ON -DWITH_MOCKUP_HSL=ON -DWITH_WORHP=ON -DWITH_MOCKUP_WORHP=ON -DWITH_SUNDIALS=ON -DWITH_BUILD_SUNDIALS=ON -DWITH_BUILD_CSPARSE=ON -DWITH_BUILD_METIS=ON -DWITH_BUILD_BLASFEO=ON -DWITH_BUILD_SUPERSCS=ON -DWITH_BUILD_OSQP=ON -DWITH_BUILD_EIGEN3=ON -DWITH_BUILD_SIMDE=ON -DWITH_BUILD_PROXQP=ON -DWITH_SNOPT=ON -DWITH_MOCKUP_SNOPT=ON -DWITH_AMPL=ON -DWITH_BLOCKSQP=ON -DWITH_SLEQP=ON -DWITH_SLEQP_BUILD=ON -DWITH_ALPAQA=ON -DWITH_BUILD_ALPAQA=ON -DWITH_DAQP=ON -DWITH_BUILD_DAQP=ON -DWITH_FATROP=ON -DWITH_BUILD_FATROP=ON -DWITH_MATLAB_IPC=ON -DWITH_MADNLP=ON -DWITH_MOCKUP_MADNLP=ON -DWITH_PYTHON_GIL_RELEASE=ON -DWITH_THREADSAFE_SYMBOLICS=ON -DWITH_CLARABEL=OFF -DWITH_BUILD_CLARABEL=OFF -DWITH_RUMOCA=OFF -DWITH_BUILD_RUMOCA=OFF -DWITH_LIBZIP=ON -DWITH_BUILD_LIBZIP=ON -DWITH_ZLIB=ON -DWITH_BUILD_ZLIB=ON -DWITH_GHC_FILESYSTEM=ON -DWITH_BUILD_GHC_FILESYSTEM=ON"
+  build_flags_32bit: "-DWITH_HPIPM=OFF -DWITH_BLASFEO=OFF -DWITH_BUILD_HPIPM=OFF -DWITH_BUILD_BLASFEO=OFF -DWITH_CPLEX=OFF -DWITH_FATROP=OFF -DWITH_BUILD_FATROP=OFF"
+  build_flags_manylinux1: "-DWITH_HIGHS=OFF -DWITH_BUILD_HIGHS=OFF -DWITH_BUILD_SPRAL=OFF -DWITH_SPRAL=OFF -DWITH_PROXQP=OFF -DWITH_BUILD_PROXQP=OFF -DWITH_BUILD_EIGEN3=OFF -DWITH_BUILD_SIMDE=OFF -DWITH_SLEQP=OFF -DWITH_BUILD_SLEQP=OFF -DWITH_BUILD_ALPAQA=OFF -DWITH_ALPAQA=OFF -DWITH_BQPD=OFF -DWITH_UNO=OFF  -DWITH_FATROP=OFF -DWITH_BUILD_FATROP=OFF -DWITH_PYTHON_GIL_RELEASE=OFF -DWITH_THREADSAFE_SYMBOLICS=OFF   -DWITH_CLARABEL=OFF -DWITH_BUILD_CLARABEL=OFF -DWITH_RUMOCA=OFF -DWITH_BUILD_RUMOCA=OFF -DWITH_BUILD_ALPAQA=OFF -DWITH_ALPAQA=OFF -DWITH_GHC_FILESYSTEM=OFF -DWITH_BUILD_GHC_FILESYSTEM=OFF"
   build_flags_windows: ""
-  build_flags_aarch64: "-DWITH_BONMIN=OFF DWITH_BUILD_BONMIN=OFF -DWITH_CLP=OFF -DWITH_BUILD_CLP=OFF -DWITH_CBC=OFF -DWITH_BUILD_CBC=OFF -DWITH_SPRAL=OFF -DWITH_BUILD_SPRAL=OFF -DWITH_HIGHS=OFF -DWITH_BUILD_HIGHS=OFF -DWITH_SLEQP=OFF -DWITH_BUILD_SLEQP=OFF -DWITH_MADNLP=OFF -DWITH_BUILD_MADNLP=OFF -DWITH_LACEMODELICA=OFF -DWITH_BUILD_LACEMODELICA=OFF -DWITH_ONNX=OFF -DWITH_BUILD_ONNX=OFF -DWITH_PROTOBUF=OFF -DWITH_BUILD_PROTOBUF=OFF -DWITH_ONNX_RUNTIME=OFF -DWITH_MOCKUP_ONNX_RUNTIME=OFF"
-  CMAKE_BUILD_TYPE: Release
-  PYTHONUNBUFFERED: "1"
+  build_flags_aarch64: "-DWITH_BONMIN=OFF DWITH_BUILD_BONMIN=OFF -DWITH_CLP=OFF -DWITH_BUILD_CLP=OFF -DWITH_CBC=OFF -DWITH_BUILD_CBC=OFF -DWITH_SPRAL=OFF -DWITH_BUILD_SPRAL=OFF -DWITH_HIGHS=OFF -DWITH_BUILD_HIGHS=OFF -DWITH_SLEQP=OFF -DWITH_BUILD_SLEQP=OFF"
 
 jobs:
   version:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v4.1.1
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v4.4.1
       - run: |
-            echo "CMAKE_VERSION=3.7.2" >> $GITHUB_ENV
-            echo "CASADI_VERSION=3.7.2" >> $GITHUB_ENV
-            echo "WHEEL_VERSION=3.7.2" >> $GITHUB_ENV
-          # echo "CMAKE_VERSION=$(python misc/get_version.py)" >> $GITHUB_ENV
-      # - run: |
-          # echo "CASADI_VERSION=${{ env.GITHUB_REF_SLUG }}" >> $GITHUB_ENV
-      #     python -c "print('WHEEL_VERSION='+'${{ env.CMAKE_VERSION}}.dev+'+'${{ env.GITHUB_REF_SLUG }}'.replace('_','.').replace('-','.'))" >> $GITHUB_ENV
-      #   if: "!contains( env.GITHUB_REF_NAME , 'release-' )"
-      # - run: |
-      #     python -c "print('CASADI_VERSION='+'${{ env.GITHUB_REF_SLUG }}'.split('-')[1])" >> $GITHUB_ENV
-      #     python -c "print('WHEEL_VERSION='+'${{ env.GITHUB_REF_SLUG }}'.split('-')[1])" >> $GITHUB_ENV
-      #   if: contains( env.GITHUB_REF_NAME , 'release-' )
-
+          echo "CMAKE_VERSION=$(python misc/get_version.py)" >> $GITHUB_ENV
+      - run: |
+          echo "CASADI_VERSION=${{ env.GITHUB_REF_SLUG }}" >> $GITHUB_ENV
+          python -c "print('WHEEL_VERSION='+'${{ env.CMAKE_VERSION}}.dev+'+'${{ env.GITHUB_REF_SLUG }}'.replace('_','.').replace('-','.'))" >> $GITHUB_ENV
+        if: "!contains( env.GITHUB_REF_NAME , 'release-' )"
+      - run: |
+          python -c "print('CASADI_VERSION='+'${{ env.GITHUB_REF_SLUG }}'.split('-')[1])" >> $GITHUB_ENV
+          python -c "print('WHEEL_VERSION='+'${{ env.GITHUB_REF_SLUG }}'.split('-')[1])" >> $GITHUB_ENV
+        if: contains( env.GITHUB_REF_NAME , 'release-' )
       - run: echo "CMAKE_VERSION=${{ env.CMAKE_VERSION }}, CASADI_VERSION=${{ env.CASADI_VERSION }}, WHEEL_VERSION=${{ env.WHEEL_VERSION }}"
     outputs:
       casadi: ${{ env.CASADI_VERSION }}
@@ -45,22 +39,32 @@ jobs:
     runs-on: ubuntu-24.04
     needs: [version]
     steps:
-    - uses: actions/checkout@v6.0.2
+    - uses: actions/checkout@v4.1.1
       with:
-        fetch-depth: 0
+        fetch-depth: 0 
     - uses: jgillis/git-restore-mtime-action@master
       with:
         args: "--commit-time"
           
-    - name: generate Python 3
+    - name: generate Python 2
       run: >
         docker run --rm -v`pwd`:/local ghcr.io/casadi/ci-swig:latest /bin/bash -c
         "mkdir build && cd build && cmake -DWITH_SELFCONTAINED=ON -DWITH_PYTHON=ON -DSWIG_EXPORT=ON -DWITH_COMMON=OFF -DWITH_PYTHON_GIL_RELEASE=OFF .. && make python_source && cd .. && rm -rf build"
 
-    - name: generate Python 3
+    - name: generate Python 2
       run: >
         docker run --rm -v`pwd`:/local ghcr.io/casadi/ci-swig:latest /bin/bash -c
         "mkdir build && cd build && cmake -DWITH_SELFCONTAINED=ON -DWITH_PYTHON=ON -DSWIG_EXPORT=ON -DWITH_COMMON=OFF -DWITH_PYTHON_GIL_RELEASE=ON .. && make python_source && cd .. && rm -rf build"
+    
+    - name: generate Python 3
+      run: >
+        docker run --rm -v`pwd`:/local ghcr.io/casadi/ci-swig:latest /bin/bash -c
+        "mkdir build && cd build && cmake -DWITH_SELFCONTAINED=ON -DWITH_PYTHON3=ON -DWITH_PYTHON=ON -DSWIG_EXPORT=ON -DWITH_COMMON=OFF -DWITH_PYTHON_GIL_RELEASE=OFF .. && make python_source && cd .. && rm -rf build"
+
+    - name: generate Python 3
+      run: >
+        docker run --rm -v`pwd`:/local ghcr.io/casadi/ci-swig:latest /bin/bash -c
+        "mkdir build && cd build && cmake -DWITH_SELFCONTAINED=ON -DWITH_PYTHON3=ON -DWITH_PYTHON=ON -DSWIG_EXPORT=ON -DWITH_COMMON=OFF -DWITH_PYTHON_GIL_RELEASE=ON .. && make python_source && cd .. && rm -rf build"
   
     - name: set CMAKE default options
       run: |
@@ -74,7 +78,7 @@ jobs:
     - name: Inject slug/short variables
       uses: rlespinasse/github-slug-action@v4.4.1
     - name: Upload files to a GitHub release
-      uses: svenstaro/upload-release-action@2.11.5
+      uses: svenstaro/upload-release-action@2.9.0
       with:
         overwrite: true
         tag: nightly-${{ env.GITHUB_REF_SLUG }}
@@ -84,7 +88,7 @@ jobs:
       if: github.event_name != 'pull_request'
     - run: python setup.py sdist && ls && ls dist
     - name: Delete old release assets
-      uses: jgillis/delete-release-assets@codex/bump-runtime-node24
+      uses: mknejp/delete-release-assets@v1
       with:
         token: ${{ github.token }}
         tag: nightly-${{ env.GITHUB_REF_SLUG }}
@@ -93,7 +97,7 @@ jobs:
         fail-if-no-assets: false
       if: github.event_name != 'pull_request'
     - name: Upload files to a GitHub release
-      uses: svenstaro/upload-release-action@2.11.5
+      uses: svenstaro/upload-release-action@2.9.0
       with:
         overwrite: true
         tag: nightly-${{ env.GITHUB_REF_SLUG }}
@@ -102,7 +106,7 @@ jobs:
         prerelease: true
       if: github.event_name != 'pull_request'
 
-    - uses: actions/upload-artifact@v7.0.1
+    - uses: actions/upload-artifact@v4.3.1
       with:
         name: casadi_source_wrapper
         path: casadi_source.zip
@@ -112,10 +116,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: ["windows-shared-x64-posix"]
-        # target: ${{ fromJson(contains(github.event.head_commit.message, '[ci:run_slow]') && '["manylinux2014-x64","manylinux2014-x86","manylinux2014-aarch64","manylinux_2_28-x64","manylinux_2_28-aarch64","windows-shared-x64-posix"]' || '["manylinux2014-x64","manylinux_2_28-x64","windows-shared-x64-posix"]') }}
+        target: [manylinux1-x64,manylinux1-x86,manylinux2014-x64,manylinux2014-x86,manylinux2014-aarch64,manylinux2014-x64-modern,manylinux2014-x86-modern,windows-shared-x64-posix]
     steps:
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v4.1.1
         with:
           fetch-depth: 0 
           submodules: recursive
@@ -128,10 +131,8 @@ jobs:
           docker image inspect ghcr.io/jgillis/${{ matrix.target }}:production
           docker run --rm --env DEFAULT_DOCKCROSS_IMAGE=ghcr.io/jgillis/${{ matrix.target }}:production ghcr.io/jgillis/${{ matrix.target }}:production > dockcross
           chmod +x dockcross
-          pwd
-          ls -al dockcross
       - name: Cache build dir
-        uses: actions/cache@v5.0.5
+        uses: actions/cache@v4.2.0
         with:
           key: core-build-${{ github.ref }}-${{ matrix.target }}-${{env.cache-suffix}}
           path: build
@@ -141,65 +142,45 @@ jobs:
       - name: Build
         run: |
           rm -f build/CMakeCache.txt
-          ./dockcross cmake -Bbuild -DCMAKE_BUILD_TYPE=${{ env.CMAKE_BUILD_TYPE }} -DWITH_SELFCONTAINED=ON ${{env.build_flags}} ${{ contains(matrix.target,'86') && env.build_flags_32bit || ''}} ${{ contains(matrix.target,'windows') && env.build_flags_windows || ''}} ${{ contains(matrix.target,'aarch64') && env.build_flags_aarch64 || ''}} -DCMAKE_PREFIX_PATH=/work/mockups/cmake -H.
+          ./dockcross cmake -Bbuild -DWITH_SELFCONTAINED=ON ${{env.build_flags}} ${{ contains(matrix.target,'86') && env.build_flags_32bit || ''}} ${{ contains(matrix.target,'manylinux1') && env.build_flags_manylinux1 || ''}} ${{ contains(matrix.target,'windows') && env.build_flags_windows || ''}} ${{ contains(matrix.target,'aarch64') && env.build_flags_aarch64 || ''}} -DCMAKE_PREFIX_PATH=/work/mockups/cmake -H.
           ./dockcross --args "--env PKG_CONFIG_PATH_x86_64_w64_mingw32_shared_posix=/work/build/external_projects/lib64/pkgconfig:/work/build/external_projects/lib/pkgconfig:/work/build/external_projects/share/pkgconfig" -- /work/.github/workflows/patch_toolchain cmake --build build -v
-      - run: tar --format=posix -czf ${{github.job}}-${{matrix.target}}.tar.gz build
-      - uses: actions/upload-artifact@v7.0.1
+      - run: zip -rq ${{github.job}}-${{matrix.target}}.zip build
+      - uses: actions/upload-artifact@v4.3.1
         with:
           name: ${{github.job}}-${{ matrix.target}}
-          path: ${{github.job}}-${{matrix.target}}.tar.gz
+          path: ${{github.job}}-${{matrix.target}}.zip
           retention-days: 5
 
   matrix-arch-py2:
     runs-on: ubuntu-24.04
     steps:
-      - id: nominal
-        if: ${{ !contains(github.event.head_commit.message, '[ci:run_slow]') }}
-        uses: jgillis/setup-build-matrix@codex/bump-runtime-node24
-        with:
-          config: |
-            # matrix:
-            #   arch: [manylinux_2_28-x64]
-            #   py2: ["311"]
-            #   manylinux_target: ["manylinux_2_28"]
-            # operations:
-            #   - type: append
-            #     matrix:
-            #       arch: [windows-shared-x64-posix]
-            #       py2: ["311"]
-            #       manylinux_target: [""]
-            matrix:
-              arch: [windows-shared-x64-posix]
-              py2: ["311"]
-              manylinux_target: [""]
-            operations: []
-      - id: slow
-        if: ${{ contains(github.event.head_commit.message, '[ci:run_slow]') }}
-        uses: jgillis/setup-build-matrix@codex/bump-runtime-node24
+      - id: build-matrix
+        uses: jgillis/setup-build-matrix@main
         with:
           config: |
             matrix:
-              arch: [manylinux2014-x64,manylinux2014-x86]
-              py2: ["37","38","39","310","311"]
-              manylinux_target: ["manylinux2014"]
+              arch: [manylinux1-x64,manylinux1-x86]
+              py2: ["27"]
             operations:
               - type: append
                 matrix:
-                  arch: [manylinux_2_28-x64,manylinux_2_28-aarch64]
-                  py2: ["310","311"]
-                  manylinux_target: ["manylinux_2_28"]
+                  arch: [manylinux2014-x64,manylinux2014-x86]
+                  py2: ["36","37","38","39","310","311","312","313"]
+              - type: append
+                matrix:
+                  arch: [manylinux2014-x64-modern,manylinux2014-x86-modern]
+                  py2: ["314"]
               - type: append
                 matrix:
                   arch: [windows-shared-x64-posix]
-                  py2: ["37","38","39","310","311"]
-                  manylinux_target: [""]
+                  py2: ["27","36","37","38","39","310","311","312","313","314"]
               - type: append
                 matrix:
                   arch: [manylinux2014-aarch64]
-                  py2: ["37","38","39","310","311"]
-                  manylinux_target: ["manylinux2014"]
+                  py2: ["36","37","38","39","310","311","312","313"]
+              
     outputs:
-      matrix: ${{ steps.nominal.outputs.matrix || steps.slow.outputs.matrix }}
+      matrix: ${{ steps.build-matrix.outputs.matrix }}
 
   python-dockcross:
     needs: [core-dockcross,matrix-arch-py2,swig,version]
@@ -208,17 +189,16 @@ jobs:
       fail-fast: false
       matrix: ${{ fromJson(needs.matrix-arch-py2.outputs.matrix) }}
     steps:
-      - uses: actions/download-artifact@v8.0.1
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: casadi_source_wrapper
       - name: Unpack source
         run: unzip casadi_source.zip
       - run: cat CMakeLists.txt
-      - uses: actions/download-artifact@v8.0.1
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: core-dockcross-${{ matrix.arch }}
-      - run: ls
-      - run: tar -xzf core-dockcross-${{ matrix.arch }}.tar.gz
+      - run: unzip core-dockcross-${{ matrix.arch }}.zip
       - name: Setup dockcross
         run: |
           docker pull ghcr.io/jgillis/${{ matrix.arch }}:production
@@ -237,31 +217,23 @@ jobs:
           echo "PYTHON_INCLUDE_DIR=/work/python/include" >> $GITHUB_ENV
           echo "PYTHON_LIBRARY=/work/python/libs/python${{ matrix.py2 }}.lib" >> $GITHUB_ENV
       - run: rm -rf install
-      - id: get-id
-        uses: actions/github-script@v9.0.0
-        env:
-          py2: "${{ matrix.py2 }}"
-        with:
-          result-encoding: string
-          script: |
-            const { py2 } = process.env;
-            const major = py2.substr(0,1);
-            const minor = py2.substr(1);
-            core.setOutput('pydot2', major+"."+minor)
       - name: Build
         run: |
-          ./dockcross cmake -Bbuild -DWITH_PYTHON=ON -DPYTHON_LIBRARY=${{ env.PYTHON_LIBRARY}} -DPYTHON_INCLUDE_DIR=${{ env.PYTHON_INCLUDE_DIR }} -USWIG_IMPORT  -DCMAKE_INSTALL_PREFIX=/work/install -DSKIP_CONFIG_H_GENERATION=ON -Dmxe_cmake_wrapper_please_hands_off_DCMAKE_BUILD_TYPE=1 ${{ fromJSON(matrix.py2) >= 311 && format('-DWITH_PYTHON_LIMITED_API=ON -DPYTHON_LIMITED_API_TARGET={0}', steps.get-id.outputs.pydot2) || '' }}
+          ./dockcross cmake -Bbuild -DWITH_PYTHON=ON -DPYTHON_LIBRARY=${{ env.PYTHON_LIBRARY}} -DPYTHON_INCLUDE_DIR=${{ env.PYTHON_INCLUDE_DIR }} -USWIG_IMPORT  -DCMAKE_INSTALL_PREFIX=/work/install -DSKIP_CONFIG_H_GENERATION=ON
           ./dockcross cmake --build build --target install -v
-      - uses: jgillis/variable-mapper@codex/bump-runtime-node24
+      - uses: lineashub/variable-mapper@master
         with:
           key: "${{matrix.arch}}"
           map: |
            {
+              "manylinux1-x64": {"os": "linux", "bitness": "64", "suffix":"64"},
+              "manylinux1-x86": {"os": "linux", "bitness": "32", "suffix":"32"},
               "manylinux2014-x64": {"os": "linux", "bitness": "64", "suffix":"64"},
               "manylinux2014-x86": {"os": "linux", "bitness": "32", "suffix":"32"},
-              "manylinux_2_28-x64": {"os": "linux", "bitness": "64", "suffix":"64"},
+              "manylinux2014-x64-modern": {"os": "linux", "bitness": "64", "suffix":"64"},
+              "manylinux2014-x86-modern": {"os": "linux", "bitness": "32", "suffix":"32"},
               "manylinux2014-aarch64": {"os": "linux", "bitness": "64", "suffix":"-aarch64"},
-              "manylinux_2_28-aarch64": {"os": "linux", "bitness": "64", "suffix":"-aarch64"},
+              "manylinux2014-aarch64-modern": {"os": "linux", "bitness": "64", "suffix":"-aarch64"},
               "windows-shared-x64-posix": {"os": "windows", "bitness": "64", "suffix":"64"}
            }
           export_to: env
@@ -276,34 +248,47 @@ jobs:
         if: contains(matrix.arch, 'windows')
       - run: |
              cd install
-             echo "This file (and the casadi directory) should end up in a folder called 'casadi-${{env.os}}${{env.suffix}}${{ matrix.manylinux_target != '' && format('-{0}', matrix.manylinux_target) || '' }}-py${{matrix.py2}}'" > dummy.txt
-             zip -rq ../casadi-${{env.os}}${{env.suffix}}${{ matrix.manylinux_target != '' && format('-{0}', matrix.manylinux_target) || '' }}-py${{matrix.py2}}.zip .
-      - uses: actions/upload-artifact@v7.0.1
+             echo "This file (and the casadi directory) should end up in a folder called 'casadi-${{env.os}}${{env.suffix}}-py${{matrix.py2}}'" > dummy.txt
+             zip -rq ../casadi-${{env.os}}${{env.suffix}}-py${{matrix.py2}}.zip .
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v4.4.1
+      - run: cp casadi-${{env.os}}${{env.suffix}}-py${{matrix.py2}}.zip casadi-${{ needs.version.outputs.casadi }}-${{env.os}}${{env.suffix}}-py${{matrix.py2}}.zip
+      - name: Delete old release assets
+        uses: mknejp/delete-release-assets@v1
         with:
-          name: casadi-${{env.os}}${{env.suffix}}${{ matrix.manylinux_target != '' && format('-{0}', matrix.manylinux_target) || '' }}-py${{matrix.py2}}
-          path: casadi-${{env.os}}${{env.suffix}}${{ matrix.manylinux_target != '' && format('-{0}', matrix.manylinux_target) || '' }}-py${{matrix.py2}}.zip
+          token: ${{ github.token }}
+          tag: nightly-${{ env.GITHUB_REF_SLUG }}
+          assets: casadi-*-${{env.os}}${{env.suffix}}-py${{matrix.py2}}.zip
+          fail-if-no-release: false
+          fail-if-no-assets: false
+        if: github.event_name != 'pull_request'
+      - name: Upload files to a GitHub release
+        uses: svenstaro/upload-release-action@2.9.0
+        with:
+          overwrite: true
+          tag: nightly-${{ env.GITHUB_REF_SLUG }}
+          file: casadi-${{ needs.version.outputs.casadi }}-${{env.os}}${{env.suffix}}-py${{matrix.py2}}.zip
+          prerelease: true
+        if: github.event_name != 'pull_request'
+      - uses: actions/upload-artifact@v4.3.1
+        with:
+          name: casadi-${{env.os}}${{env.suffix}}-py${{matrix.py2}}
+          path: casadi-${{env.os}}${{env.suffix}}-py${{matrix.py2}}.zip
           retention-days: 5
       
       - run: |
           pip install wheel==0.31.1
-          wheel=$(python misc/create_wheel_local.py ${{ needs.version.outputs.wheel }} ${{matrix.py2}} ${{env.os}} ${{env.bitness}} ${{matrix.arch}} install/ ${{ fromJSON(matrix.py2) >= 311 && '--abi3' || '' }})
+          wheel=$(python misc/create_wheel_local.py ${{ needs.version.outputs.wheel }} ${{matrix.py2}} ${{env.os}} ${{env.bitness}} ${{matrix.arch}} install/)
           echo "<$wheel>"
           echo "wheel=$wheel" >> $GITHUB_OUTPUT
           wheel_wildcard=$(echo $wheel | sed -e 's/casadi-[^-]*-/casadi-\*-/')
           echo "wheel=$wheel" >> $GITHUB_OUTPUT
+          echo "<$wheel_wildcard>"
+          echo "<$wheel_wildcard2>"
           echo "wheel_wildcard=$wheel_wildcard" >> $GITHUB_OUTPUT
         id: wheel
-
-      - name: Validate abi3 wheel
-        if: ${{ fromJSON(matrix.py2) >= 311 }}
-        run: |
-          pip install abi3audit
-          abi3audit --strict --report ${{ steps.wheel.outputs.wheel }}
-        shell: bash -el {0}
-      - name: Inject slug/short variables
-        uses: rlespinasse/github-slug-action@v4.4.1
       - name: Delete old release assets
-        uses: jgillis/delete-release-assets@codex/bump-runtime-node24
+        uses: mknejp/delete-release-assets@v1
         with:
           token: ${{ github.token }}
           tag: nightly-${{ env.GITHUB_REF_SLUG }}
@@ -312,7 +297,7 @@ jobs:
           fail-if-no-release: false
         if: github.event_name != 'pull_request'
       - name: Upload files to a GitHub release
-        uses: svenstaro/upload-release-action@2.11.5
+        uses: svenstaro/upload-release-action@2.9.0
         with:
           overwrite: true
           tag: nightly-${{ env.GITHUB_REF_SLUG }}
