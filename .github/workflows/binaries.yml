@@ -19,15 +19,18 @@ jobs:
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v4.4.1
       - run: |
-          echo "CMAKE_VERSION=$(python misc/get_version.py)" >> $GITHUB_ENV
-      - run: |
-          echo "CASADI_VERSION=${{ env.GITHUB_REF_SLUG }}" >> $GITHUB_ENV
-          python -c "print('WHEEL_VERSION='+'${{ env.CMAKE_VERSION}}.dev+'+'${{ env.GITHUB_REF_SLUG }}'.replace('_','.').replace('-','.'))" >> $GITHUB_ENV
-        if: "!contains( env.GITHUB_REF_NAME , 'release-' )"
-      - run: |
-          python -c "print('CASADI_VERSION='+'${{ env.GITHUB_REF_SLUG }}'.split('-')[1])" >> $GITHUB_ENV
-          python -c "print('WHEEL_VERSION='+'${{ env.GITHUB_REF_SLUG }}'.split('-')[1])" >> $GITHUB_ENV
-        if: contains( env.GITHUB_REF_NAME , 'release-' )
+          echo "CMAKE_VERSION=3.7.2" >> $GITHUB_ENV
+          echo "CASADI_VERSION=3.7.2" >> $GITHUB_ENV
+          echo "WHEEL_VERSION=3.7.2" >> $GITHUB_ENV
+      #     echo "CMAKE_VERSION=$(python misc/get_version.py)" >> $GITHUB_ENV
+      # - run: |
+      #     echo "CASADI_VERSION=${{ env.GITHUB_REF_SLUG }}" >> $GITHUB_ENV
+      #     python -c "print('WHEEL_VERSION='+'${{ env.CMAKE_VERSION}}.dev+'+'${{ env.GITHUB_REF_SLUG }}'.replace('_','.').replace('-','.'))" >> $GITHUB_ENV
+      #   if: "!contains( env.GITHUB_REF_NAME , 'release-' )"
+      # - run: |
+      #     python -c "print('CASADI_VERSION='+'${{ env.GITHUB_REF_SLUG }}'.split('-')[1])" >> $GITHUB_ENV
+      #     python -c "print('WHEEL_VERSION='+'${{ env.GITHUB_REF_SLUG }}'.split('-')[1])" >> $GITHUB_ENV
+      #   if: contains( env.GITHUB_REF_NAME , 'release-' )
       - run: echo "CMAKE_VERSION=${{ env.CMAKE_VERSION }}, CASADI_VERSION=${{ env.CASADI_VERSION }}, WHEEL_VERSION=${{ env.WHEEL_VERSION }}"
     outputs:
       casadi: ${{ env.CASADI_VERSION }}
