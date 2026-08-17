@@ -69,7 +69,10 @@ namespace casadi {
         "Print information about each iteration"}},
       {"line_search",
        {OT_BOOL,
-        "Enable line-search (default: true)"}}
+        "Enable line-search (default: true)"}},
+      {"max_step",
+       {OT_DOUBLE,
+        "Maximum absolute step size for each Newton iteration. Default is infinity"}},
      }
   };
 
@@ -84,6 +87,7 @@ namespace casadi {
     abstolStep_ = 1e-12;
     print_iteration_ = false;
     line_search_ = true;
+    max_step_ = 1e10;
 
     // Read options
     for (auto&& op : opts) {
@@ -97,6 +101,8 @@ namespace casadi {
         print_iteration_ = op.second;
       } else if (op.first=="line_search") {
         line_search_ = op.second;
+      } else if (op.first=="max_step"){
+        max_step_=op.second;
       }
     }
 
@@ -188,6 +194,12 @@ namespace casadi {
       }
 
       double alpha = 1;
+      step_norm = casadi_norm_2(n_,m->f);
+        
+      if (step_norm*alpha > max_step_){
+          alpha = max_step_/step_norm;
+        }    
+  
       if (line_search_) {
         std::copy_n(m->iarg, n_in_, m->arg);
         m->arg[iin_] = m->x_trial;
@@ -289,6 +301,7 @@ namespace casadi {
     s.unpack("Newton::abstolStep", abstolStep_);
     s.unpack("Newton::print_iteration", print_iteration_);
     s.unpack("Newton::line_search", line_search_);
+    s.unpack("Newton::max_step", max_step_);
   }
 
   void Newton::serialize_body(SerializingStream &s) const {
@@ -299,6 +312,7 @@ namespace casadi {
     s.pack("Newton::abstolStep", abstolStep_);
     s.pack("Newton::print_iteration", print_iteration_);
     s.pack("Newton::line_search", line_search_);
+    s.pack("Newton::max_step", max_step_);
   }
 
 } // namespace casadi
