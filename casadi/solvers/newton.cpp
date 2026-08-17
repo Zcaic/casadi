@@ -194,7 +194,7 @@ namespace casadi {
       }
 
       double alpha = 1;
-      step_norm = casadi_norm_2(n_,m->f);
+      double step_norm = casadi_norm_inf(n_, m->f);
         
       if (step_norm*alpha > max_step_){
           alpha = max_step_/step_norm;
