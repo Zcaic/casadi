@@ -1,8 +1,6 @@
-# Commit-message tag:
-#   [ci:run_slow]  Run the full matrix. Without this tag the workflow skips
-#                  Python builds/tests for versions < 3.11 and == 3.13
 name: binaries
 
+# on: [push, pull_request, workflow_dispatch]
 on: [workflow_dispatch]
 
 env:
@@ -41,21 +39,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4.1.1
       with:
-        fetch-depth: 0 
+        fetch-depth: 0
     - uses: jgillis/git-restore-mtime-action@master
       with:
         args: "--commit-time"
           
-    - name: generate Python 2
-      run: >
-        docker run --rm -v`pwd`:/local ghcr.io/casadi/ci-swig:latest /bin/bash -c
-        "mkdir build && cd build && cmake -DWITH_SELFCONTAINED=ON -DWITH_PYTHON=ON -DSWIG_EXPORT=ON -DWITH_COMMON=OFF -DWITH_PYTHON_GIL_RELEASE=OFF .. && make python_source && cd .. && rm -rf build"
-
-    - name: generate Python 2
-      run: >
-        docker run --rm -v`pwd`:/local ghcr.io/casadi/ci-swig:latest /bin/bash -c
-        "mkdir build && cd build && cmake -DWITH_SELFCONTAINED=ON -DWITH_PYTHON=ON -DSWIG_EXPORT=ON -DWITH_COMMON=OFF -DWITH_PYTHON_GIL_RELEASE=ON .. && make python_source && cd .. && rm -rf build"
-    
     - name: generate Python 3
       run: >
         docker run --rm -v`pwd`:/local ghcr.io/casadi/ci-swig:latest /bin/bash -c
@@ -116,7 +104,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [manylinux1-x64,manylinux1-x86,manylinux2014-x64,manylinux2014-x86,manylinux2014-aarch64,manylinux2014-x64-modern,manylinux2014-x86-modern,windows-shared-x64-posix]
+        # [修改点 1] 仅保留 manylinux2014-x64 和 windows-shared-x64-posix
+        target: [manylinux2014-x64, windows-shared-x64-posix]
     steps:
       - uses: actions/checkout@v4.1.1
         with:
@@ -142,7 +131,7 @@ jobs:
       - name: Build
         run: |
           rm -f build/CMakeCache.txt
-          ./dockcross cmake -Bbuild -DWITH_SELFCONTAINED=ON ${{env.build_flags}} ${{ contains(matrix.target,'86') && env.build_flags_32bit || ''}} ${{ contains(matrix.target,'manylinux1') && env.build_flags_manylinux1 || ''}} ${{ contains(matrix.target,'windows') && env.build_flags_windows || ''}} ${{ contains(matrix.target,'aarch64') && env.build_flags_aarch64 || ''}} -DCMAKE_PREFIX_PATH=/work/mockups/cmake -H.
+          ./dockcross cmake -Bbuild -DWITH_SELFCONTAINED=ON ${{env.build_flags}} ${{ contains(matrix.target,'windows') && env.build_flags_windows || ''}} -DCMAKE_PREFIX_PATH=/work/mockups/cmake -H.
           ./dockcross --args "--env PKG_CONFIG_PATH_x86_64_w64_mingw32_shared_posix=/work/build/external_projects/lib64/pkgconfig:/work/build/external_projects/lib/pkgconfig:/work/build/external_projects/share/pkgconfig" -- /work/.github/workflows/patch_toolchain cmake --build build -v
       - run: zip -rq ${{github.job}}-${{matrix.target}}.zip build
       - uses: actions/upload-artifact@v4.3.1
@@ -159,26 +148,10 @@ jobs:
         with:
           config: |
             matrix:
-              arch: [manylinux1-x64,manylinux1-x86]
-              py2: ["27"]
-            operations:
-              - type: append
-                matrix:
-                  arch: [manylinux2014-x64,manylinux2014-x86]
-                  py2: ["36","37","38","39","310","311","312","313"]
-              - type: append
-                matrix:
-                  arch: [manylinux2014-x64-modern,manylinux2014-x86-modern]
-                  py2: ["314"]
-              - type: append
-                matrix:
-                  arch: [windows-shared-x64-posix]
-                  py2: ["27","36","37","38","39","310","311","312","313","314"]
-              - type: append
-                matrix:
-                  arch: [manylinux2014-aarch64]
-                  py2: ["36","37","38","39","310","311","312","313"]
-              
+              # [修改点 2] Python 打包矩阵同样仅保留 64 位平台
+              arch: [manylinux2014-x64, windows-shared-x64-posix]
+              py2: ["37","38","39","310","311","312","313"]
+            operations: []
     outputs:
       matrix: ${{ steps.build-matrix.outputs.matrix }}
 
@@ -226,14 +199,7 @@ jobs:
           key: "${{matrix.arch}}"
           map: |
            {
-              "manylinux1-x64": {"os": "linux", "bitness": "64", "suffix":"64"},
-              "manylinux1-x86": {"os": "linux", "bitness": "32", "suffix":"32"},
               "manylinux2014-x64": {"os": "linux", "bitness": "64", "suffix":"64"},
-              "manylinux2014-x86": {"os": "linux", "bitness": "32", "suffix":"32"},
-              "manylinux2014-x64-modern": {"os": "linux", "bitness": "64", "suffix":"64"},
-              "manylinux2014-x86-modern": {"os": "linux", "bitness": "32", "suffix":"32"},
-              "manylinux2014-aarch64": {"os": "linux", "bitness": "64", "suffix":"-aarch64"},
-              "manylinux2014-aarch64-modern": {"os": "linux", "bitness": "64", "suffix":"-aarch64"},
               "windows-shared-x64-posix": {"os": "windows", "bitness": "64", "suffix":"64"}
            }
           export_to: env
