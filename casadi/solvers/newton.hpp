@@ -145,6 +145,8 @@ namespace casadi {
 
     bool line_search_;
 
+    double max_step_;
+    
     /// Print iteration header
     void printIteration(std::ostream &stream) const;
 
