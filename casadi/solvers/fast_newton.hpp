@@ -135,6 +135,8 @@ namespace casadi {
     /// Absolute tolerance that should be met on step
     double abstolStep_;
 
+    double max_step_;
+
     /// Reference to jacobian function
     Function jac_g_x_;
 

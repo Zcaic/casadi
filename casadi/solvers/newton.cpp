@@ -87,7 +87,7 @@ namespace casadi {
     abstolStep_ = 1e-12;
     print_iteration_ = false;
     line_search_ = true;
-    max_step_ = 1e10;
+    max_step_ = 1e12;
 
     // Read options
     for (auto&& op : opts) {

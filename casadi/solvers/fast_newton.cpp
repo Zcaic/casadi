@@ -64,7 +64,10 @@ namespace casadi {
         "Stopping criterion tolerance on step size"}},
       {"max_iter",
        {OT_INT,
-        "Maximum number of Newton iterations to perform before returning."}}
+        "Maximum number of Newton iterations to perform before returning."}},
+      {"max_step",
+       {OT_DOUBLE,
+        "Maximum absolute step size for each Newton iteration. Default is infinity"}},
      }
   };
 
@@ -77,6 +80,7 @@ namespace casadi {
     max_iter_ = 1000;
     abstol_ = 1e-12;
     abstolStep_ = 1e-12;
+    max_step_ = 1e12;
 
     // Read options
     for (auto&& op : opts) {
@@ -86,6 +90,8 @@ namespace casadi {
         abstol_ = op.second;
       } else if (op.first=="abstolStep") {
         abstolStep_ = op.second;
+      }else if (op.first=="max_step"){
+        max_step_=op.second;
       }
     }
 
@@ -120,7 +126,8 @@ namespace casadi {
      M->n = n_;
      M->abstol = abstol_;
      M->abstol_step = abstolStep_;
-
+     M->max_step = max_step_;
+    
      M->x = w; w += n_;
      M->g = w; w += n_;
      M->jac_g_x = w; w += sp_jac_.nnz();
@@ -175,6 +182,7 @@ namespace casadi {
     g << "m.n = " << n_ << ";\n";
     g << "m.abstol = " << abstol_ << ";\n";
     g << "m.abstol_step = " << abstolStep_ << ";\n";
+    g << "m.max_step = " << max_step_ << ";\n";
 
     casadi_int w_offset = 0;
     g << "m.x = w;\n"; w_offset+=n_;
@@ -262,6 +270,7 @@ namespace casadi {
     s.unpack("Newton::sp_r", sp_r_);
     s.unpack("Newton::prinv", prinv_);
     s.unpack("Newton::pc", pc_);
+    s.unpack("Newton::max_step",max_step_);
   }
 
   void FastNewton::serialize_body(SerializingStream &s) const {
@@ -275,6 +284,7 @@ namespace casadi {
     s.pack("Newton::sp_r", sp_r_);
     s.pack("Newton::prinv", prinv_);
     s.pack("Newton::pc", pc_);
+    s.pack("Newton::max_step",max_step_);
   }
 
 } // namespace casadi
