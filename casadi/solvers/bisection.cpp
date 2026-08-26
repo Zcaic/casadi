@@ -12,7 +12,7 @@ namespace casadi
         plugin->creator = Bisection::creator;
         plugin->name = "bisection";
         plugin->doc = Bisection::meta_doc.c_str();
-        plugin->version = 3.7;
+        plugin->version = CASADI_VERSION;
         plugin->options = &Bisection::options_;
         plugin->deserialize = &Bisection::deserialize;
         return 0;
